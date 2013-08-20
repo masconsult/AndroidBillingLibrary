@@ -668,17 +668,17 @@ public class BillingController {
 	 *            purchase intent.
 	 * @param intent
 	 */
-	public static void startPurchaseIntent(Activity activity, PendingIntent purchaseIntent, Intent intent) {
+	public static void startPurchaseIntent(Context context, PendingIntent purchaseIntent, Intent intent) {
 		if (Compatibility.isStartIntentSenderSupported()) {
 			// This is on Android 2.0 and beyond. The in-app buy page activity
 			// must be on the activity stack of the application.
-			Compatibility.startIntentSender(activity, purchaseIntent.getIntentSender(), intent);
+			Compatibility.startIntentSender(context, purchaseIntent.getIntentSender(), intent);
 		} else {
 			// This is on Android version 1.6. The in-app buy page activity must
 			// be on its own separate activity stack instead of on the activity
 			// stack of the application.
 			try {
-				purchaseIntent.send(activity, 0 /* code */, intent);
+				purchaseIntent.send(context, 0 /* code */, intent);
 			} catch (CanceledException e) {
 				Log.e(LOG_TAG, "Error starting purchase intent", e);
 			}
